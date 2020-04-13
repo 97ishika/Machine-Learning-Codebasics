@@ -36,3 +36,16 @@ X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test
 model.fit(X_train, y_train)
 
 model.score(X_test, y_test)
+
+#Confusion matrix
+y_predicted = model.predict(X_test)
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_predicted)
+cm
+
+import seaborn as sn
+import matplotlib.pyplot as plt
+plt.figure(figsize = (10,7))
+sn.heatmap(cm, annot=True)
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
