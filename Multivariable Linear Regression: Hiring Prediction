@@ -1,0 +1,37 @@
+#
+Import the necessary libraries
+import pandas as pd
+import numpy as np
+from sklearn
+import linear_model
+import math
+from word2number
+import w2n
+
+# Read the data
+df = pd.read_csv("/kaggle/input/hiring/hiring.csv")
+df.head()
+
+# Convert the experience column to numbers
+df.experience.fillna("zero", inplace = True)
+df.experience = df.experience.apply(w2n.word_to_num)
+
+# Fill the nan values using mean of test score
+mean_test_score = df["test_score(out of 10)"].mean()
+df["test_score(out of 10)"].fillna(mean_test_score, inplace = True)
+
+# Build the linear regression model
+reg = linear_model.LinearRegression()
+reg.fit(df[['experience', 'test_score(out of 10)', 'interview_score(out of 10)']], df['salary($)'])
+
+# Predict
+reg.predict([
+  [2, 9, 6]
+])
+reg.predict([
+  [2, 9, 6]
+])
+
+# Check the predictions
+reg.coef_
+reg.intercept_(2827.63404314 * 2) + (1912.93803053 * 9) + (2196.9753141 * 6) + 17237.330313727172
