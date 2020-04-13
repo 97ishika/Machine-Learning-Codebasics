@@ -1,0 +1,63 @@
+#
+Import necesaary libraries
+import pandas as pd
+from matplotlib
+import pyplot as plt
+
+# Read the data
+df = pd.read_csv("/kaggle/input/hr-analytics/HR_comma_sep.csv")
+df
+
+# People who 've left column
+left = df[df.left == 1]
+left.shape
+
+# People who 're retaining column
+retain = df[df.left == 0]
+retain.shape
+
+# Check the mean of two groups(left and retain)
+df.groupby('left').mean()
+
+# Visualization between two groups
+pd.crosstab(df.salary, df.left).plot(kind = 'bar')
+pd.crosstab(df.Department, df.left).plot(kind = 'bar')
+
+# New dataframe containing relevant independent variables
+subdf = df[['satisfaction_level', 'average_montly_hours', 'promotion_last_5years', 'salary']]
+subdf.head()
+
+# Put dummies on Salary
+salary_dummies = pd.get_dummies(subdf.salary, prefix = "salary")
+
+# Merge two dataframes
+df_with_dummies = pd.concat([subdf, salary_dummies], axis = 'columns')
+
+df_with_dummies.head()
+
+# Drop extra, irrelevant columns
+df_with_dummies.drop('salary', axis = 'columns', inplace = True)
+df_with_dummies.head()
+
+X = df_with_dummies# Independent variable
+X.head()
+
+y = df.left# dependent variable
+
+# Building the logistic model
+from sklearn.model_selection
+import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.3)
+
+from sklearn.linear_model
+import LogisticRegression
+model = LogisticRegression()
+
+# Training the model
+model.fit(X_train, y_train)
+
+# Prediction
+model.predict(X_test)
+
+# Check accuracy
+model.score(X_test, y_test)
