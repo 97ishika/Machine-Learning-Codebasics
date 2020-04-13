@@ -1,0 +1,30 @@
+#
+Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn
+import linear_model
+
+# Reading data from csv
+df = pd.read_csv("/kaggle/input/canada-per-capita-income-single-variable-data-set/canada_per_capita_income.csv")
+df.head()
+
+# Data Visualization
+plt.xlabel('Year', fontsize = 20)
+plt.ylabel('Per Capita Income(US$)', fontsize = 20)
+plt.scatter(df['year'], df['per capita income (US$)'], color = 'red', marker = '+')
+
+# Building the linear regression model and training it using the given data
+reg = linear_model.LinearRegression()
+reg.fit(df[['per capita income (US$)']], df.year)
+
+# Predict data
+for the year 2020
+reg.predict([
+  [2020]
+])
+
+reg.coef_
+reg.intercept_
+0.00107538 + (1972.6536140098344 * 2020)
