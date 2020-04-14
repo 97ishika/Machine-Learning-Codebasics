@@ -1,0 +1,19 @@
+from sklearn.datasets import load_iris
+iris = load_iris()
+dir(iris)
+
+iris.feature_names
+
+df = pd.DataFrame(iris.data, columns = iris.feature_names)
+df.head()
+
+df['target'] = iris.target
+df
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(df.drop(['target'], axis = 'columns'), iris.target, test_size = 0.2)
+
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(n_estimators = 10)
+model.fit(X_train, y_train)
+model.score(X_test, 
