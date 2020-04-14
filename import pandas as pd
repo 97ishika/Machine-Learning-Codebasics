@@ -1,0 +1,28 @@
+import pandas as pd
+
+#Read the data
+df = pd.read_csv("/kaggle/input/titanic/titanic_train.csv")
+df.head()
+
+inputs = df[['Pclass', 'Sex', 'Age', 'Fare']] #Independent variable
+target = df[['Survived']] #Dependent Variable
+
+#Converting text into number of Sex
+from sklearn.preprocessing import LabelEncoder
+le_sex = LabelEncoder()
+inputs['Sex_n'] = le_sex.fit_transform(inputs['Sex'])
+
+#Drop the previous sex column 
+inputs.drop(['Sex'], axis = 'columns', inplace = True)
+
+#Treatment of missing values
+inputs.Age = inputs.Age.fillna(inputs.Age.mean(), inplace = True)
+
+#Building the decision tree
+from sklearn import tree
+model = tree.DecisionTreeClassifier()
+model.fit(inputs, target)
+
+#Checking accuracy
+model.score(inputs, target)
+
