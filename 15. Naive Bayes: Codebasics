@@ -1,0 +1,27 @@
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.re
+
+from sklearn import datasets
+wine = datasets.load_wine()
+dir(wine)
+
+df = pd.DataFrame(wine.data, columns = wine.feature_names)
+df.head()
+
+df['target'] = wine.target
+df.head()
+
+#Splitting the data into training and testing
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(wine.data, wine.target, test_size = 0.25)
+
+#Gaussian
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
+model_gaussian = GaussianNB()
+model_gaussian.fit(X_test, y_test)
+model_gaussian.score(X_test, y_test)
+
+#Multinomial
+model_multinomial = MultinomialNB()
+model_multinomial.fit(X_train, y_train)
+model_multinomial.score(X_test, y_test)
